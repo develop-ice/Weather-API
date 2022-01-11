@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout layout;
 
     // Location
-    LocationManager locationManager;
+    private LocationManager locationManager;
 
     // Permissions
     private static final int REQUEST_LOCATION = 1;
@@ -68,17 +68,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void OnGPS() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Enable GPS").setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        builder.setMessage("Enable GPS")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
         final AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
@@ -103,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void getWeatherData(double lat, double lon) {
         progressBar.setVisibility(View.VISIBLE);
+
         Call<OpenWeatherMap> call = RetrofitClient.getInstance().getApi().fetchWeaterWhithLocation(lat, lon);
         call.enqueue(new Callback<OpenWeatherMap>() {
             @Override
